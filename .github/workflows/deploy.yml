@@ -1,0 +1,27 @@
+name: CD Deploy
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+      - main
+
+jobs:
+  deploy:
+    # Solo ejecutar si el PR fue aceptado (merged), no si fue cerrado sin aceptar
+    if: github.event.pull_request.merged == true
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy with Docker Compose
+        run: |
+          echo "Haciendo pull de la última imagen desde el Registry local..."
+          # docker compose usará la variable REGISTRY_IP inyectada por el Droplet
+          docker compose pull
+          
+          echo "Levantando servicios..."
+          docker compose up -d

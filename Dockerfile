@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copiamos el archivo JAR compilado (asegúrate de que el nombre coincida)
 # Por defecto Spring Boot genera algo como app-0.0.1-SNAPSHOT.jar en la carpeta target/
-COPY target/*.jar app.jar
+COPY target/app-springboot-0.0.1-SNAPSHOT.jar app.jar
 
 # Puerto que expone la aplicación
 EXPOSE 8080

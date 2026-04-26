@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     echo "Construyendo la imagen Docker para Spring Boot..."
-                    sh "docker build -t ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} -t ${REGISTRY}/${IMAGE_NAME}:latest ."
+                    sh "docker build -t ${REGISTRY}:5000/${IMAGE_NAME}:${IMAGE_TAG} -t ${REGISTRY}:5000/${IMAGE_NAME}:latest ."
                 }
             }
         }
@@ -33,25 +33,9 @@ pipeline {
             steps {
                 script {
                     echo "Enviando imagen al registro interno..."
-                    sh "docker push ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-                    sh "docker push ${REGISTRY}/${IMAGE_NAME}:latest"
+                    sh "docker push ${REGISTRY}:5000/${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker push ${REGISTRY}:5000/${IMAGE_NAME}:latest"
                 }
             }
-        }
-        stage('Deploy a Producción') {
-            steps {
-                script {
-                    // Cambio realizado: Añadimos una etapa ilustrativa para conectar al servidor y desplegar.
-                    // Por qué se realizó: El pipeline solo publicaba la imagen, nunca iniciaba la aplicación en app_server.
-                    echo "===== NOTA PARA DESPLIEGUE ====="
-                    echo "Para arrancar la app en tu app_server, requieres conectarte por SSH desde Jenkins."
-                    /*
-                    sshagent(['id-credencial-ssh-app-server']) {
-                        sh "ssh -o StrictHostKeyChecking=no root@IP_APP_SERVER 'cd /ruta/app && docker compose pull && docker compose up -d'"
-                    }
-                    */
-                }
-            }
-        }
     }
 }
