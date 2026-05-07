@@ -18,8 +18,8 @@ jobs:
       - name: Deploy with Docker Compose
         run: |
           echo "Haciendo pull de la última imagen desde el Registry local..."
-          # Usamos el docker-compose que está en el repo para este despliegue
-          docker compose pull
+          # Usamos la ruta completa para evitar errores de PATH
+          /usr/bin/docker compose pull
           
           echo "Levantando servicios..."
-          docker compose up -d
+          /usr/bin/docker compose up -d
