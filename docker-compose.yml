@@ -7,4 +7,6 @@ services:
     restart: always
     environment:
       - SERVER_PORT=8080
-      # Aquí puedes añadir variables para la base de datos si usas una
+    volumes:
+      - ./app_data:/app/data
+      - ./logs:/tmp/logs
