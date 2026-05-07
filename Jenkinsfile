@@ -17,7 +17,7 @@ pipeline {
                     // Cambio realizado: Se descomentó la compilación de Maven.
                     // Por qué se realizó: Subir archivos binarios (como .jar) a Git es mala práctica; el CI (Jenkins) es el que debe compilarlo en este paso.
                     sh "chmod +x mvnw"
-                    sh "./mvnw clean package -DskipTests"
+                    sh "./mvnw clean test package"
                 }
             }
         }
@@ -37,21 +37,6 @@ pipeline {
                     sh "docker push ${REGISTRY}/${IMAGE_NAME}:latest"
                 }
             }
-        }
-        stage('Deploy a Producción') {
-            steps {
-                script {
-                    // Cambio realizado: Añadimos una etapa ilustrativa para conectar al servidor y desplegar.
-                    // Por qué se realizó: El pipeline solo publicaba la imagen, nunca iniciaba la aplicación en app_server.
-                    echo "===== NOTA PARA DESPLIEGUE ====="
-                    echo "Para arrancar la app en tu app_server, requieres conectarte por SSH desde Jenkins."
-                    /*
-                    sshagent(['id-credencial-ssh-app-server']) {
-                        sh "ssh -o StrictHostKeyChecking=no root@IP_APP_SERVER 'cd /ruta/app && docker compose pull && docker compose up -d'"
-                    }
-                    */
-                }
-            }
-        }
     }
+}
 }
