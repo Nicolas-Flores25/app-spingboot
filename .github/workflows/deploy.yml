@@ -1,17 +1,15 @@
 name: CD Deploy
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - master
       - main
+      - develop
 
 jobs:
   deploy:
-    
-    if: github.event.pull_request.merged == true
-    runs-on: self-hosted
+    name: Deploy to ${{ github.ref_name == 'main' && 'Production' || 'Development' }}
+    runs-on: [self-hosted, "${{ github.ref_name == 'main' && 'prod' || 'dev' }}"]
 
     steps:
       - name: Checkout code
@@ -20,6 +18,7 @@ jobs:
       - name: Deploy with Docker Compose
         run: |
           echo "Haciendo pull de la última imagen desde el Registry local..."
+          # Usamos el docker-compose que está en el repo para este despliegue
           docker compose pull
           
           echo "Levantando servicios..."
