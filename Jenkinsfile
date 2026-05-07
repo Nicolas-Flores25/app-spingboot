@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     echo "Construyendo la imagen Docker para Spring Boot..."
-                    sh "docker build -t ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} -t ${REGISTRY}/${IMAGE_NAME}:latest ."
+                    sh "docker build -t ${REGISTRY}:5000/${IMAGE_NAME}:${IMAGE_TAG} -t ${REGISTRY}:5000/${IMAGE_NAME}:latest ."
                 }
             }
         }
@@ -33,8 +33,8 @@ pipeline {
             steps {
                 script {
                     echo "Enviando imagen al registro interno..."
-                    sh "docker push ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-                    sh "docker push ${REGISTRY}/${IMAGE_NAME}:latest"
+                    sh "docker push ${REGISTRY}:5000/${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker push ${REGISTRY}:5000/${IMAGE_NAME}:latest"
                 }
             }
     }
