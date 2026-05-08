@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   app-springboot:
     image: ${REGISTRY_IP}:5000/app-springboot:latest
